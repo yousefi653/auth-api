@@ -79,6 +79,89 @@ python manage.py runserver
 
 Visit http://127.0.0.1:8000 to start testing the API.
 
+# Example Requests and Responses
+### 1. Register
+
+- **Request**:
+```bash
+POST /accounts/register/
+{
+  "email": "yousef.gh653@gmail.com",
+  "first_name": "Yousef",
+  "last_name": "Ghasemi",
+  "phone": "1234567890",
+  "password": "password123",
+  "password2": "password123"
+}
+```
+
+- **Response**:
+```bash
+{
+  "message": "User registered successfully",
+  "user": {
+    "email": "yousef.gh653@gmail.com",
+    "first_name": "Yousef",
+    "last_name": "Ghasemi"
+  }
+}
+```
+### 2. Login
+
+- **Request**:
+```bash
+POST /accounts/login/
+{
+  "email": "yousef.gh653@gmail.com",
+  "password": "password123"
+}
+```
+
+- **Response**:
+```bash
+{
+  "access": "<access_token>",
+  "refresh": "<refresh_token>",
+  "user": {
+    "email": "yousef.gh653@gmail.com",
+    "first_name": "Yousef",
+    "last_name": "Ghasemi"
+  }
+}
+```
+### 3. Logout
+
+- **Request**:
+```bash
+POST /accounts/logout/
+{
+  "refresh": "<refresh_token>"
+}
+```
+
+- **Response**:
+```bash
+{
+  "message": "Logout successfully!"
+}
+```
+### 4. Get User Profile (Authenticated User)
+
+- **Request**:
+
+GET /accounts/me/
+
+
+- **Response**:
+```bash
+{
+  "email": "yousef.gh653@gmail.com",
+  "first_name": "Yousef",
+  "last_name": "Ghasemi",
+  "phone": "1234567890"
+}
+```
+
 ## Author
 
 ***Yousef Ghasemi***
