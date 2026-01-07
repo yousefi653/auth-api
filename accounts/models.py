@@ -1,6 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
 from django.utils import timezone
+
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -12,7 +17,7 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
-    
+
     def create_superuser(self, email, password, **data):
         data.setdefault("is_staff", True)
         data.setdefault("is_superuser", True)
@@ -32,9 +37,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]
-    
 
     def __str__(self):
         return self.email
-
-    
