@@ -1,167 +1,147 @@
-# JWT Authentication with Django REST Framework
+# JWT Authentication API
 
-## Description
+A REST API for user registration and authentication built with **Python**, **Django**, and **Django REST Framework**. It uses JWT access and refresh tokens through `djangorestframework-simplejwt`.
 
-This is a simple JWT Authentication system built using Django Rest Framework (DRF) and django-rest-framework-simplejwt. It provides secure registration, login, logout, and token refreshing for your applications.
+## Features
 
-## Key Features
+- User registration with email, first name, last name, and phone number
+- Login with email and password
+- JWT access and refresh token issuance
+- Refreshing access tokens
+- Logout by blacklisting a refresh token
+- Retrieving the authenticated user's profile
 
-- **User Registration**: Register new users with email, first name, last name and phone number.
-- **JWT Authentication**: Secure authentication using **Access Tokens** and **Refresh Tokens**. Access tokens are short-lived, and refresh tokens allow for seamless access renewal.
-- **Login**: Login users with email and password to obtain access and refresh tokens.
-- **Logout**: Secure logout that blacklists the refresh token to invalidate the user session.
-- **Token Refresh**: Refresh access tokens using a valid refresh token.
-- **User Profile**: Retrieve the authenticated user's profile information from the `accounts/me/` endpoint.
+## Tech Stack
 
-## Technologies Used
-
-- **Django**
-- **Django REST Framework (DRF)** for API development
-- **Python**
+- Python
+- Django
+- Django REST Framework
+- djangorestframework-simplejwt
 
 ## API Endpoints
 
-| Method | Endpoint                       | Description                                     |
-|--------|--------------------------------|------------------------------------------------ |
-| `POST` | `/accounts/register/`          | Register a new user.                            |
-| `POST` | `/accounts/login/`             | Login a user and get access and refresh tokens. |
-| `POST` | `/accounts/refresh/`           | Refresh an access token using a refresh token.  |
-| `POST` | `/accounts/logout/`            | Logout a user by blacklisting the refresh token.|
-| `GET`  | `/accounts/me/`                | Get the authenticated user's profile details.   |
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/accounts/register/` | Register a new user |
+| `POST` | `/accounts/login/` | Authenticate and receive tokens |
+| `POST` | `/accounts/refresh/` | Refresh an access token |
+| `POST` | `/accounts/logout/` | Blacklist a refresh token |
+| `GET` | `/accounts/me/` | Retrieve the authenticated user's profile |
 
-## Setup Instructions
+## Getting Started
 
-Follow these steps to set up the project locally:
-
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/yousefi653/auth-api.git
-cd auth-api/
+cd auth-api
 ```
 
-### 2. Install Dependencies
+### 2. Create a virtual environment
 
-Create a virtual environment and install the required dependencies.
-
-# Create and activate a virtual environment
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows, use venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate
 ```
 
-# Install dependencies
+On Windows:
+
+```powershell
+.venv\\Scripts\\activate
+```
+
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configure the Database
+### 4. Apply database migrations
 
-Run database migrations:
 ```bash
 python manage.py migrate
 ```
-### 4. Create a Superuser 
 
-If you'd like to access the Django admin panel, create a superuser:
+### 5. Start the development server
 
-```bash
-python manage.py createsuperuser
-```
-
-### 5. Run the Development Server
-
-Now you can run the development server:
 ```bash
 python manage.py runserver
 ```
 
-Visit http://127.0.0.1:8000 to start testing the API.
+The API will be available at `http://127.0.0.1:8000/`.
 
-# Example Requests and Responses
-### 1. Register
+## Example Requests
 
-- **Request**:
-```bash
+### Register
+
+```http
 POST /accounts/register/
+Content-Type: application/json
+```
+
+```json
 {
-  "email": "yousef.gh653@gmail.com",
-  "first_name": "Yousef",
-  "last_name": "Ghasemi",
-  "phone": "1234567890",
-  "password": "password123",
-  "password2": "password123"
+  "email": "user@example.com",
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "phone": "09120000000",
+  "password": "change-this-password",
+  "password2": "change-this-password"
 }
 ```
 
-- **Response**:
-```bash
-{
-  "message": "User registered successfully",
-  "user": {
-    "email": "yousef.gh653@gmail.com",
-    "first_name": "Yousef",
-    "last_name": "Ghasemi"
-  }
-}
-```
-### 2. Login
+### Login
 
-- **Request**:
-```bash
+```http
 POST /accounts/login/
+Content-Type: application/json
+```
+
+```json
 {
-  "email": "yousef.gh653@gmail.com",
-  "password": "password123"
+  "email": "user@example.com",
+  "password": "change-this-password"
 }
 ```
 
-- **Response**:
-```bash
-{
-  "access": "<access_token>",
-  "refresh": "<refresh_token>",
-  "user": {
-    "email": "yousef.gh653@gmail.com",
-    "first_name": "Yousef",
-    "last_name": "Ghasemi"
-  }
-}
-```
-### 3. Logout
+### Refresh Token
 
-- **Request**:
-```bash
-POST /accounts/logout/
+```http
+POST /accounts/refresh/
+Content-Type: application/json
+```
+
+```json
 {
   "refresh": "<refresh_token>"
 }
 ```
 
-- **Response**:
-```bash
+### Logout
+
+```http
+POST /accounts/logout/
+Content-Type: application/json
+```
+
+```json
 {
-  "message": "Logout successfully!"
+  "refresh": "<refresh_token>"
 }
 ```
-### 4. Get User Profile (Authenticated User)
 
-- **Request**:
+### Retrieve Current User
 
+```http
 GET /accounts/me/
-
-
-- **Response**:
-```bash
-{
-  "email": "yousef.gh653@gmail.com",
-  "first_name": "Yousef",
-  "last_name": "Ghasemi",
-  "phone": "1234567890"
-}
+Authorization: Bearer <access_token>
 ```
 
-## Author
+## Notes
 
-***Yousef Ghasemi***
+- Replace the example credentials with your own test values.
+- This project is intended as a learning and portfolio project. Review the implementation and deployment settings before using it in a production environment.
+
+## License
+
+No license is specified yet.
